@@ -3,7 +3,7 @@ name: onboarding-workflow
 on:
   workflow_dispatch:
     inputs:
-      empployee-name: 
+      employee-name: 
         description: 'Name of the employee that will be onboarded'
         required: true
         default: ''
@@ -12,7 +12,7 @@ jobs:
   provision-employee:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Create repository for employee
         env:
