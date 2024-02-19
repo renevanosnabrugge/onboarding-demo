@@ -1,0 +1,23 @@
+name: onboarding-workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      empployee-name: 
+        description: 'Name of the employee that will be onboarded'
+        required: true
+        default: ''
+
+jobs:
+  provision-employee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create repository for employee
+        env:
+          GITHUB_TOKEN: ${{ secrets.EXTENDED_GITHUB_TOKEN }}
+          EMPLOYEE_NAME: ${{ github.event.inputs['employee-name'] }}
+        run: gh repo create renevanosnabrugge/${EMPLOYEE_NAME} --internal --confirm
+
+
