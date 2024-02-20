@@ -40,11 +40,6 @@ jobs:
             }
             return "${{ github.event.inputs.employee-name }}";
 
-      - name: Create repository for employee
-        env:
-          GITHUB_TOKEN: ${{ secrets.EXTENDED_GITHUB_TOKEN }}
-        run: gh repo create renevanosnabrugge/${{ steps.employee-name-output.outputs.result }} --public 
-
       - name: Create Repository with Issues
         env:
           GITHUB_TOKEN: ${{ secrets.EXTENDED_GITHUB_TOKEN }}
