@@ -50,4 +50,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.EXTENDED_GITHUB_TOKEN }}
         shell: pwsh
         run: |
-          .\create-issues.ps1 -sourceRepoName "renevanosnabrugge/onboarding-demo" -employeeName ${{ steps.employee-name-output.outputs.result }} -backofficeRepoName "renevanosnabrugge/onboarding-demo"
+          .\scripts\create-issues.ps1 -sourceRepoName "renevanosnabrugge/onboarding-demo" -employeeName ${{ steps.employee-name-output.outputs.result }} -backofficeRepoName "renevanosnabrugge/onboarding-demo"
