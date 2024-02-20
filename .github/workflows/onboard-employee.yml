@@ -24,14 +24,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            if ("${{ github.event_name }}" == "issues") {
-                if (${{github.event.issue.labels[0].name}} == "onboard") {
-                employee = ${{ github.event.issue.title }}
-                console.log(`Employee to onboard :tada: ${employee}`);
-              }
-              throw new Error("Issue did not have a onboard label");
-            }
-            return "${{ github.event.inputs.employee-name }}";
+            console.log(`Employee to onboard :tada: ${{ github.event.issue.title }}`);
+            console.log(`Label ${{github.event.issue.labels[0].name}}`);
 
       - name: Create repository for employee
         env:
