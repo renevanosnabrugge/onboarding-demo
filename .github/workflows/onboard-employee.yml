@@ -25,12 +25,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             console.log(`Employee to onboard :tada: ${{ github.event.issue.title }}`);
-            console.log(`Label ${{github.event.issue.labels[0].name}}`);
+            console.log(`Label ${{ github.event.issue.labels[0].name}} `);
             if ("${{ github.event_name }}" == "issues") {
-              if (github.event.issue.labels[0].name === 'onboard') {
-                console.log(`Employee to onboard :tada: ${{ github.event.issue.title }}`);
+              console.log(`Workflow is triggerd by an issue `);
+
+              if (${{ github.event.issue.labels[0].name }} === 'onboard') {
+                console.log(`Employee to onboard: [${{ github.event.issue.title }}]`);
                 return github.event.issue.user.login;
-              } else {
+              } 
+              else {
                 console.log('No onboarding issue found');
                 return '';
               }
