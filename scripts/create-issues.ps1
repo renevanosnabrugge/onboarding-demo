@@ -22,10 +22,20 @@ function New-Issues {
     $issues = $issuesJson | ConvertFrom-Json 
     
     Write-Host $issuesJson
+
     # for each issue create a new issue with the same title and body
     foreach ($issue in $issues) {
         Write-Host $issue.title
-        gh issue create -t $issue.title -b $issue.body --repo $targetRepoName
+        $labels = $issue.labels
+        $labelArray = @()
+        foreach ($label in $labels) {
+            #build an array of label names that are in $label.name 
+            $labelArray += $label.name
+        }
+    
+        $labelCommaList = $labelArray -join ","
+
+        gh issue create -t $issue.title -b $issue.body -l $labelCommaList --repo $targetRepoName
     } 
 }
 
