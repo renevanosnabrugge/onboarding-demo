@@ -1,6 +1,10 @@
 name: onboarding-workflow
 
 on:
+  issues:
+    types:
+      - closed
+  
   workflow_dispatch:
     inputs:
       employee-name: 
@@ -14,9 +18,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get issue creator
+        id: github_handle
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            if ("${{ github.event_name }}" == "issues") {
+                if (${{github.event.issue.labels[0].name}} == "onboard") {
+                employee = ${{ github.event.issue.title }}
+                console.log(`Employee to onboard :tada: ${employee}`);
+              }
+              throw new Error("Issue did not have a onboard label");
+            }
+            return "${{ github.event.inputs.employee-name }}";
+
       - name: Create repository for employee
         env:
           GITHUB_TOKEN: ${{ secrets.EXTENDED_GITHUB_TOKEN }}
         run: gh repo create renevanosnabrugge/${{inputs.employee-name}} --public 
-
-
