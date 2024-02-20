@@ -31,7 +31,7 @@ jobs:
 
               if ("${{ github.event.issue.labels[0].name }}" == 'onboard') {
                 console.log(`Employee to onboard: [${{ github.event.issue.title }}]`);
-                return ${{ github.event.issue.user.login }};
+                return "${{ github.event.issue.title }}";
               } 
               else {
                 console.log('No onboarding issue found');
