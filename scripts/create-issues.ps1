@@ -27,12 +27,17 @@ function New-Issues {
     foreach ($issue in $issues) {
         Write-Host $issue.title
         $labels = $issue.labels
+
+        #clean all values in the labelArray by creating a new array
         $labelArray = @()
-        foreach ($label in $labels) {
-            #build an array of label names that are in $label.name 
-            $labelArray += $label.name
+
+        #for loop to add all the labels to the labelArray
+        for($i = 0; $i -lt $labels.Count; $i++)
+        {
+            $labelArray += $labels[$i].name
         }
-    
+
+   
         $labelCommaList = $labelArray -join ","
 
         gh issue create -t $issue.title -b $issue.body -l $labelCommaList --repo $targetRepoName
@@ -57,6 +62,6 @@ $employeePascalCase = $employeeName -replace " ", ""
 $targetEmployeeRepoName = "renevanosnabrugge/employee-$employeePascalCase"
 
 New-Repository -targetRepoName $targetEmployeeRepoName
-New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
+#New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName -label "Template Employee"
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $backofficeRepoName -label "Template Office Support"
