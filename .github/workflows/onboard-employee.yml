@@ -27,7 +27,7 @@ jobs:
             console.log(`Employee to onboard :tada: ${{ github.event.issue.title }}`);
             console.log(`Label ${{ github.event.issue.labels[0].name}} `);
             if ("${{ github.event_name }}" == "issues") {
-              console.log(`Workflow is triggerd by an issue `);
+              console.log(`Workflow is triggered by an issue `);
 
               if ("${{ github.event.issue.labels[0].name }}" == 'onboard') {
                 console.log(`Employee to onboard: [${{ github.event.issue.title }}]`);
@@ -35,6 +35,7 @@ jobs:
               } 
               else {
                 console.log('No onboarding issue found');
+                throw new Error("Issue did not have a onboard label - Skipping the rest");
                 return '';
               }
             }
