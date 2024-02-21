@@ -16,12 +16,16 @@ function New-Issues {
     param (
         [string] $sourceRepoName,
         [string] $targetRepoName,
-        [string] $label
+        [string] $label,
+        [string] $prefixIssues
     )
     $issuesJson = gh issue list --repo $($sourceRepoName) -l $($label) --json "body","title","labels"
     $issues = $issuesJson | ConvertFrom-Json 
     
-    Write-Host $issuesJson
+    #read skiplabels.json file from the same directory as the runnin script
+    $skipLabels = Get-Content -Path "skiplabels.json" | ConvertFrom-Json
+
+
 
     # for each issue create a new issue with the same title and body
     foreach ($issue in $issues) {
@@ -34,13 +38,23 @@ function New-Issues {
         #for loop to add all the labels to the labelArray
         for($i = 0; $i -lt $labels.Count; $i++)
         {
-            $labelArray += $labels[$i].name
+    
+            # if the label does not exist in the skipLabels array, add it to the labelArray
+            if ($skipLabels -notcontains $labels[$i].name) {
+                $labelArray += $labels[$i].name
+            }
         }
 
    
         $labelCommaList = $labelArray -join ","
 
-        gh issue create -t $issue.title -b $issue.body -l $labelCommaList --repo $targetRepoName
+        #if the prefixIssues is not empty, add the prefix to the title
+        $issueTitle = $issue.title
+        if ($prefixIssues -ne "") {
+
+            $issueTitle = $prefixIssues + $issue.title
+        }
+        gh issue create -t $issueTitle -b $issue.body -l $labelCommaList --repo $targetRepoName
     } 
 }
 
@@ -64,4 +78,4 @@ $targetEmployeeRepoName = "renevanosnabrugge/employee-$employeePascalCase"
 New-Repository -targetRepoName $targetEmployeeRepoName
 #New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName -label "Template Employee"
-New-Issues -sourceRepoName $sourceRepoName -targetRepoName $backofficeRepoName -label "Template Office Support"
+New-Issues -sourceRepoName $sourceRepoName -targetRepoName $backofficeRepoName -label "Template Office Support"  -prefixIssues "$employeeName - "
