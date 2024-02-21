@@ -76,6 +76,6 @@ $employeePascalCase = $employeeName -replace " ", ""
 $targetEmployeeRepoName = "renevanosnabrugge/employee-$employeePascalCase"
 
 New-Repository -targetRepoName $targetEmployeeRepoName
-#New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
+New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName -label "Template Employee"
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $backofficeRepoName -label "Template Office Support"  -prefixIssues "$employeeName - "
