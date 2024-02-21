@@ -23,7 +23,7 @@ function New-Issues {
     $issues = $issuesJson | ConvertFrom-Json 
     
     #read skiplabels.json file from the same directory as the runnin script
-    $skipLabels = Get-Content -Path "skiplabels.json" | ConvertFrom-Json
+    $skipLabels = Get-Content -Path "./scripts/skiplabels.json" | ConvertFrom-Json
 
 
 
