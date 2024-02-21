@@ -40,9 +40,10 @@ function New-Issues {
         {
     
             # if the label does not exist in the skipLabels array, add it to the labelArray
-            if ($skipLabels -notcontains $labels[$i].name) {
-                $labelArray += $labels[$i].name
+            if ($skipLabels -contains $labels[$i].name) {
+                continue;
             }
+            $labelArray += $labels[$i].name
         }
 
    
@@ -75,7 +76,7 @@ function New-Labels {
 $employeePascalCase = $employeeName -replace " ", ""
 $targetEmployeeRepoName = "renevanosnabrugge/employee-$employeePascalCase"
 
-New-Repository -targetRepoName $targetEmployeeRepoName
-New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
+#New-Repository -targetRepoName $targetEmployeeRepoName
+#New-Labels -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $targetEmployeeRepoName -label "Template Employee"
 New-Issues -sourceRepoName $sourceRepoName -targetRepoName $backofficeRepoName -label "Template Office Support"  -prefixIssues "$employeeName - "
